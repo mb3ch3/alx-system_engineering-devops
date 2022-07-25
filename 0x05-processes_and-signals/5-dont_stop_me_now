@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# This script uses `kill` command to stop the ``4-to_infinity_and_beyond`` process
+
+pid=()
+readarray -t pid < <(pgrep -la -x "bash.*" | grep '4-to_infinity_and_beyond' | cut -d ' ' -f 1)
+for ((i = 0; i < "${#pid[@]}"; i++)) 
+do
+  kill -s SIGTERM "${pid[i]}"
+done

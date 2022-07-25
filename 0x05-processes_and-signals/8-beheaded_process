@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# This script kills the process 7-highlander
+
+pid=()
+readarray -t pid < <(pgrep -la -x "bash.*" | grep './7-highlander' | cut -d ' ' -f 1)
+for ((i = 0; i < "${#pid[@]}"; i++)) 
+do
+  kill -s SIGKILL "${pid[i]}"
+done
