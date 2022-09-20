@@ -1,25 +1,20 @@
-# Install and configure ann nginx server with Puppet
-
+# install nginx
 package { 'nginx':
-	ensure	=> installed,
-	name	=> 'nginx',
+  ensure => installed,
 }
 
-file { '/var/www/html/index.nginx-debian.html':
-	content	=> 'Hello World!',
+file_line { 'aaaaa':
+  ensure => 'present',
+  path   => '/etc/nginx/sites-available/default',
+  after  => 'listen 80 default_server;',
+  line   => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
 }
+
 file { '/var/www/html/index.html':
-	content	=> 'Hello World'',
+  content => 'Hello World!',
 }
 
-file_line { 'redirect permanently 301':
-	ensure 	=> present,
-	path	=> '/etc/nginx/sites-available/default',
-	after	=> 'server_name_;',
-	line	=> 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
-}
-
-service {'nginx':
-	ensure	=> running,
-	require	=> Package['nginx'],
+service { 'nginx':
+  ensure  => running,
+  require => Package['nginx'],
 }
